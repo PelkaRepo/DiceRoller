@@ -6,6 +6,12 @@ import org.apache.log4j.Logger;
 import org.pelka.tools.rpgrpfile.calc.*;
 import org.pelka.games.diceroller.calc.DiceRoller;
 
+/**
+ * A simple app testing rpgrp reading and communication with the DiceRoller class
+ * 
+ * @author Justin Mollenauer
+ *
+ */
 public class RPGRPFileApp
 {
 	private final static Logger logger = Logger.getLogger(RPGRPFileApp.class);
@@ -18,7 +24,6 @@ public class RPGRPFileApp
 		logger.info("Sending info on " + attacks[0].getName() + " to DiceRoller");
 		DiceRoller roller = new DiceRoller(attacks[0].getDieNum(), attacks[0].getDieType());
 		roller.setDiceModifier(attacks[0].getAttackBonus());
-		roller.printDiceRoller();
 		roller.printDiceRoller();
 		logger.info("Fetching Skill Info");
 		HashMap<String, Integer> skills = test.getSkills();
@@ -33,5 +38,6 @@ public class RPGRPFileApp
 			roller.setDiceModifier(0);
 		}
 		logger.info("Rolling Bluff...");
+		roller.printDiceRoller();
 	}
 }
