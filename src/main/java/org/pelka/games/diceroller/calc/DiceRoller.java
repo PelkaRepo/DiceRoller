@@ -186,6 +186,18 @@ public class DiceRoller {
 	}
 
 	/**
+	 * Accessor method to retrieve the value of the last run die roll on the
+	 * current thread. This should only be access for reference of a last run
+	 * roll after a value has been assess via the direct-access methods in this
+	 * class, such as for testing purposes.
+	 * 
+	 * @return The last run die roll on this thread
+	 */
+	public int getCurrentRoll() {
+		return this.currentRoll;
+	}
+
+	/**
 	 * Calculator that determines the pseudo-randomized dice rolls based on dice
 	 * inputs. All mutatable variables related to dice rolls must be set in
 	 * order to run this method.
@@ -242,7 +254,7 @@ public class DiceRoller {
 	 */
 	public void printDiceRoller() {
 		logger.info("\nTOTAL DICE ROLL:\n" + getDiceNumber() + "d"
-				+ getDiceType() + "+[" + getDiceModifier() + "]"
-				+ "\nTotal: " + runTotalDiceRoller());
+				+ getDiceType() + "+[" + getDiceModifier() + "]" + "\nTotal: "
+				+ runTotalDiceRoller());
 	}
 }

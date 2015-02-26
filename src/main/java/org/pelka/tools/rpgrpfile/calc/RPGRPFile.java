@@ -13,205 +13,197 @@ import java.io.File;
 import java.util.HashMap;
 
 /**
- * A class representing a standard XML rpgrp file like those exported from PCGen
- * Allows the reading and fetching of specific character data from the file
+ * A class representing a standard XML rpgrp file like those exported from
+ * PCGen. Allows the reading and fetching of specific character data from the
+ * file.
  * 
  * @author Justin Mollenauer
  *
  */
-public class RPGRPFile
-{
+public class RPGRPFile {
 	private final static Logger logger = Logger.getLogger(RPGRPFile.class);
 	protected String filename;
 	protected Document document;
-	
+
 	/**
 	 * Constructor for instantiating the object given the desired rpgrp file
 	 * 
 	 * @param filename
-	 * 		File location
+	 *            File location
 	 */
-	public RPGRPFile(String filename)
-	{
+	public RPGRPFile(String filename) {
 		this.filename = filename;
 		init();
 	}
-	
+
 	/**
-	 * Initializes the object using the given filename
-	 * Runs once after calling constructor
+	 * Initializes the object using the given filename. Runs once after calling
+	 * constructor.
 	 */
-	private void init()
-	{
+	private void init() {
 		try {
 			File fXmlFile = new File(filename);
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+					.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);
- 
+
 			doc.getDocumentElement().normalize();
 			document = doc;
 			logger.info("File opened successfully");
-			
-		} catch (Exception e) 
-		{
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Returns the character name
 	 * 
-	 * @return
-	 * 	Character Name
+	 * @return Character Name
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return getElement("name");
 	}
-	
+
 	/**
 	 * Returns the Initiative modifier
 	 * 
-	 * @return
-	 * 		Initiative Modifier
+	 * @return Initiative Modifier
 	 */
-	public String getInitiative()
-	{
+	public String getInitiative() {
 		return getElement("init-modifier");
 	}
-	
-	
+
 	/**
-	 * Returns an Array of Attack objects representing the possible attacks a character can make
+	 * Returns an Array of Attack objects representing the possible attacks a
+	 * character can make
 	 * 
-	 * @return
-	 * 		Array of Attack objects
+	 * @return Array of Attack objects
 	 */
-	public Attack[] getAttacks()
-	{
+	public Attack[] getAttacks() {
 		String text = getElement("attack");
 		String[] attacks = text.split("\n\\)");
 		Attack[] value = new Attack[attacks.length - 1];
 		String[] tempArray = new String[attacks.length - 1];
 		int i = 0;
-		for(String attack:attacks)
-		{
-			if(i < attacks.length - 1)
-			{
+		for (String attack : attacks) {
+			if (i < attacks.length - 1) {
 				tempArray[i] = attack;
 				i++;
 			}
 		}
 		attacks = tempArray;
 		i = 0;
-		for(String attack:attacks)
-		{
+		for (String attack : attacks) {
 			int curIndex = 0;
 			attack = attack.trim();
 			String name = attack.substring(0, attack.indexOf(':'));
-			String temp = attack.substring(attack.indexOf('\n') + 1, attack.indexOf('\n', attack.indexOf('\n') + 1));
+			String temp = attack.substring(attack.indexOf('\n') + 1,
+					attack.indexOf('\n', attack.indexOf('\n') + 1));
 			curIndex = attack.indexOf('\n', attack.indexOf('\n') + 1);
 			int attackBonus = 1;
-			if(temp.indexOf('-') > 0)
-			{
+			if (temp.indexOf('-') > 0) {
 				attackBonus = -1;
 			}
 			temp = temp.substring(1).trim();
 			attackBonus *= Integer.parseInt(temp);
-			String type = attack.substring(attack.indexOf('\n', curIndex) + 1, attack.indexOf('\n', attack.indexOf('\n', curIndex) + 1)).trim();
+			String type = attack.substring(attack.indexOf('\n', curIndex) + 1,
+					attack.indexOf('\n', attack.indexOf('\n', curIndex) + 1))
+					.trim();
 			curIndex = attack.indexOf('\n', attack.indexOf('\n', curIndex) + 1);
-			int diceNumber = Integer.parseInt(attack.substring(attack.indexOf('(', attack.indexOf('\n')) + 1, attack.indexOf('d', attack.indexOf('\n'))).trim());
+			int diceNumber = Integer.parseInt(attack.substring(
+					attack.indexOf('(', attack.indexOf('\n')) + 1,
+					attack.indexOf('d', attack.indexOf('\n'))).trim());
 			curIndex = attack.indexOf('d', attack.indexOf('\n'));
 			char typeEnd = '\n';
-			if(attack.indexOf('+') > -1)
-			{
+			if (attack.indexOf('+') > -1) {
 				typeEnd = '+';
 			}
-			int diceType = Integer.parseInt(attack.substring(attack.indexOf('d', attack.indexOf('\n')) + 1, attack.indexOf(typeEnd, curIndex)));
+			int diceType = Integer.parseInt(attack.substring(
+					attack.indexOf('d', attack.indexOf('\n')) + 1,
+					attack.indexOf(typeEnd, curIndex)));
 			curIndex = attack.indexOf(typeEnd, curIndex);
 			int damageBonus = 0;
-			if(attack.indexOf('+', curIndex) > -1 || attack.indexOf('-', curIndex) > -1)
-			{
+			if (attack.indexOf('+', curIndex) > -1
+					|| attack.indexOf('-', curIndex) > -1) {
 				char searchChar = '+';
-				if(attack.indexOf('-', curIndex) > -1)
-				{
+				if (attack.indexOf('-', curIndex) > -1) {
 					damageBonus = -1;
 					searchChar = '-';
 				}
-				if(attack.indexOf('+', curIndex) > -1)
-				{
+				if (attack.indexOf('+', curIndex) > -1) {
 					damageBonus = 1;
 					searchChar = '+';
 				}
-				if(attack.indexOf('\n', curIndex) > -1)
-				{
-					damageBonus = Integer.parseInt(attack.substring(attack.indexOf(searchChar, curIndex) + 1, attack.indexOf('\n', curIndex)));
-				}
-				else
-				{
-					damageBonus = Integer.parseInt(attack.substring(attack.indexOf(searchChar, curIndex) + 1));
+				if (attack.indexOf('\n', curIndex) > -1) {
+					damageBonus = Integer.parseInt(attack.substring(
+							attack.indexOf(searchChar, curIndex) + 1,
+							attack.indexOf('\n', curIndex)));
+				} else {
+					damageBonus = Integer.parseInt(attack.substring(attack
+							.indexOf(searchChar, curIndex) + 1));
 				}
 			}
-			value[i] = new Attack(name, damageBonus, diceNumber, diceType, type, attackBonus);
+			value[i] = new Attack(name, damageBonus, diceNumber, diceType,
+					type, attackBonus);
 			i++;
 		}
 		return value;
 	}
-	
+
 	/**
-	 * Returns a HashMap which can be queried for skill modifiers
-	 * Unlisted skills have a modifier of 0
-	 * @return
-	 * 		HasMap of skills with skill modifiers
+	 * Returns a HashMap which can be queried for skill modifiers Unlisted
+	 * skills have a modifier of 0
+	 * 
+	 * @return HashMap of skills with skill modifiers
 	 */
-	public HashMap<String, Integer> getSkills()
-	{
+	public HashMap<String, Integer> getSkills() {
 		HashMap<String, Integer> value = new HashMap<String, Integer>();
 		String[] skills = getElement("skills").split(";");
 		int skillValue = 1;
 		String skillName = "";
-		for(String skill:skills)
-		{
-			char searchChar = '+';	
+		for (String skill : skills) {
+			char searchChar = '+';
 			skillValue = 1;
-			if(skill.indexOf('-') > -1)
-			{
+			if (skill.indexOf('-') > -1) {
 				searchChar = '-';
 				skillValue = -1;
 			}
-			try{
-			skillName = skill.substring(0, skill.indexOf(searchChar)).trim();
-			skillValue *= Integer.parseInt(skill.substring(skill.indexOf(searchChar) + 1));
-			value.put(skillName, skillValue);
-			}
-			catch(Exception e){
+			try {
+				skillName = skill.substring(0, skill.indexOf(searchChar))
+						.trim();
+				skillValue *= Integer.parseInt(skill.substring(skill
+						.indexOf(searchChar) + 1));
+				value.put(skillName, skillValue);
+			} catch (Exception e) {
 				continue;
 			}
 		}
 		return value;
 	}
-	
+
 	/**
-	 * Generic method to fetch an element from the XML file given the element name
+	 * Generic method to fetch an element from the XML file given the element
+	 * name
+	 * 
 	 * @param elementName
-	 * 		The Element Name
-	 * @return
-	 * 		Text content of the element
+	 *            The Element Name
+	 * @return Text content of the element
 	 */
-	private String getElement(String elementName)
-	{
+	private String getElement(String elementName) {
 		NodeList nList = document.getElementsByTagName("combatant");
-	 
+
 		for (int temp = 0; temp < nList.getLength(); temp++) {
-	 
+
 			Node node = nList.item(temp);
-	 
+
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
-	 
+
 				Element element = (Element) node;
-				return element.getElementsByTagName(elementName).item(0).getTextContent();
-	 
+				return element.getElementsByTagName(elementName).item(0)
+						.getTextContent();
+
 			}
 		}
 		return null;
