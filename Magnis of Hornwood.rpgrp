@@ -1,0 +1,107 @@
+<group-set>
+  <game-name>PCGen stat block</game-name>
+  <groups>
+    <group>
+      <name>PCGen Export</name>
+      <combatants>
+        <combatant>
+          <name>Magnis of Hornwood</name>
+          <count>1</count>
+          <init-modifier>-1</init-modifier>
+          <player>Brogdon</player>
+          <type>default</type>
+          <token></token>
+          <type>Humanoid</type>
+          <fullType>
+LG Medium 
+humanoid
+(human)
+	    </fullType>
+          <raceClass>
+Human; 
+paladin 4
+          </raceClass>
+          <descriptor>Human</descriptor>
+          <levels>4 th lvl Paladin; </levels>
+          <senses>, Perception +0; </senses>
+          <languages>Abyssal, Common</languages>
+          <hitDice>(4d10)+13  (46 hp)</hitDice>
+          <hitPoints>46</hitPoints>
+          <currentHitPoints>46</currentHitPoints>
+          <size>M</size>
+          <speed>Walk 20 ft.</speed>
+          <ac>18</ac>
+          <touchAc>9</touchAc>
+          <flatFootedAc>18</flatFootedAc>
+          <fullArmorClass>18, touch: 9, flat-footed: 18</fullArmorClass>
+          <baseAttack>+4</baseAttack>
+          <grapple>+6</grapple>
+          <baseAttackGrapple>+4; CMB +6; CMD 15</baseAttackGrapple>
+          <space>5 ft. by 5 ft.</space>
+          <reach>5 ft.</reach>
+          <faceReach>5 ft. by 5 ft. Reach: 5 ft.</faceReach>
+          <fortSave>+10</fortSave>
+          <reflexSave>+4</reflexSave>
+          <willSave>+8</willSave>
+          <fullSaves>Fort: +10, Ref: +4, Will: +8</fullSaves>
+          <str>14 [+2]</str>
+          <dex>8 [-1]</dex>
+          <con>15 [+2]</con>
+          <int>12 [+1]</int>
+          <wis>10 [+0]</wis>
+          <cha>18 [+4]</cha>
+          <fullAbilities>Str 14, Dex 8, Con 15, Int 12, Wis 10, Cha 18</fullAbilities>
+          <challengeRating>3</challengeRating>
+          <attack>
+Masterwork Sword (Short): 
++7 
+melee
+ (
+1d6+2
+/19-20
+) 
+Masterwork Shield (Heavy/Wooden): 
++6 
+melee
+ (
+1d4+1
+) 
+          </attack>
+	<specialAttacks>Channel Positive Energy, Smite Evil</specialAttacks>
+	<specialQualities>Aura of Courage, Aura of Good, Bonus Feat, Detect Evil, Divine Health, Lay on Hands, Mercy (Shaken), Skilled, Weapon and Armor Proficiency </specialQualities>
+          <skills>
+Acrobatics -7; 
+Appraise +1; 
+Bluff +4; 
+Climb -4; 
+Craft (Untrained) +1; 
+Diplomacy +8; 
+Disguise +4; 
+Escape Artist -7; 
+Fly -7; 
+Heal +0; 
+Intimidate +6; 
+Knowledge (Nobility) +6; 
+Knowledge (Religion) +5; 
+Perception +0; 
+Perform (Untrained) +4; 
+Ride -7; 
+Sense Motive +4; 
+Stealth -7; 
+Survival +0; 
+Swim -4; 
+          </skills>
+          <feats>Shield Focus, Toughness</feats>
+          <levalAdjustment>0</levalAdjustment>
+          <alignment>Lawful Good</alignment>
+          <possessions>
+Masterwork Sword (Short); 
+Masterwork Shield (Heavy/Wooden); 
+Chainmail; 
+Outfit (Traveler's); 
+          </possessions>
+        </combatant>
+      </combatants>
+    </group>
+  </groups>
+</group-set>
