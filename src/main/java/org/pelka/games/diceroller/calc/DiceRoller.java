@@ -252,9 +252,20 @@ public class DiceRoller {
 	 * Simple dice roll printer. This will print dice roll total results with
 	 * any specified modifiers and use-selected dice to command line.
 	 */
-	public void printDiceRoller() {
+	public void printTotalDiceRoller() {
 		logger.info("\nTOTAL DICE ROLL:\n" + getDiceNumber() + "d"
 				+ getDiceType() + "+[" + getDiceModifier() + "]" + "\nTotal: "
 				+ runTotalDiceRoller());
+	}
+	
+	/**
+	 * Simple dice roll printer. This will print dice roll results with
+	 * any specified modifiers and use-selected dice to command line for
+	 * a single die roll.
+	 */
+	public void printCurrentDiceRoller() {
+		logger.info("\nCURRENT DIE ROLL:\n1d"
+				+ getDiceType() + "+[" + getDiceModifier() + "]" + "\nTotal: "
+				+ runCurrentDiceRoller());
 	}
 }

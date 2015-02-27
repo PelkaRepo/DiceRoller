@@ -37,6 +37,29 @@
 
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/main/resource</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+					<include>**/*.json</include>
+					<include>**/*.jpg</include>
+					<include>**/*.rpgrp</include>
+				</includes>
+			</resource>
+
+			<resource>
+				<directory>src/test/resource</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+					<include>**/*.json</include>
+					<include>**/*.jpg</include>
+					<include>**/*.rpgrp</include>
+				</includes>
+			</resource>
+		</resources>
 
 		<plugins>
 			<!-- SCM -->

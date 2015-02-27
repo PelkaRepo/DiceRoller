@@ -1,4 +1,4 @@
-package org.pelka.tools.rpgrpfile.calc;
+package org.pelka.tools.actions;
 
 /**
  * A class for holding Attack data

@@ -1,15 +1,20 @@
-package org.pelka.tools.rpgrpfile.calc;
+package org.pelka.tools.util.io;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 
 import org.apache.log4j.Logger;
+import org.pelka.tools.actions.Attack;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 
 /**
@@ -20,8 +25,9 @@ import java.util.HashMap;
  * @author Justin Mollenauer
  *
  */
-public class RPGRPFile {
-	private final static Logger logger = Logger.getLogger(RPGRPFile.class);
+public class RPGRPFileReader {
+	private final static Logger logger = Logger.getLogger(RPGRPFileReader.class);
+	public static boolean TEST_MODE = false;
 	protected String filename;
 	protected Document document;
 
@@ -31,7 +37,7 @@ public class RPGRPFile {
 	 * @param filename
 	 *            File location
 	 */
-	public RPGRPFile(String filename) {
+	public RPGRPFileReader(String filename) {
 		this.filename = filename;
 		init();
 	}
@@ -42,7 +48,18 @@ public class RPGRPFile {
 	 */
 	private void init() {
 		try {
-			File fXmlFile = new File(filename);
+			InputStream fXmlFile = null;
+			ClassLoader classLoader = getClass().getClassLoader();
+			
+			File jarPath = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+	        String supportFilePath = jarPath.getParentFile().getAbsolutePath();
+			
+			if (TEST_MODE) {
+				fXmlFile = classLoader.getResourceAsStream(filename);
+			} else {
+				fXmlFile = new FileInputStream(supportFilePath + "/" + filename);
+			}
+			
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 					.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -50,10 +67,18 @@ public class RPGRPFile {
 
 			doc.getDocumentElement().normalize();
 			document = doc;
+			
+			//fXmlFile.close();
 			logger.info("File opened successfully");
 
+		} catch (FileNotFoundException fnfe) {
+			logger.error("The support file specified did not exist in the given path");
+		} catch (IOException ioe) {
+			logger.error("There was a problem reading in a support file");
+		} catch (NullPointerException npe) {
+			logger.error("There was no support file found with the file name listed");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("An unexpected error occurred while retrieving support file data\n" + e.getCause());
 		}
 	}
 

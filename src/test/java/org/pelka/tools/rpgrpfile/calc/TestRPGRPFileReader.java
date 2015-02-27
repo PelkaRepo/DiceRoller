@@ -10,6 +10,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.pelka.games.diceroller.calc.DiceRoller;
+import org.pelka.tools.actions.Attack;
+import org.pelka.tools.util.io.RPGRPFileReader;
 
 /**
  * Testing individual methods of the RPGRPFile class. This will also run a
@@ -18,21 +20,23 @@ import org.pelka.games.diceroller.calc.DiceRoller;
  * @author arnoldpelka, Justin Mollenauer
  *
  */
-public class TestRPGRPFile {
-	private final static Logger logger = Logger.getLogger(TestRPGRPFile.class);
+public class TestRPGRPFileReader {
+	private final static Logger logger = Logger.getLogger(TestRPGRPFileReader.class);
 
-	protected RPGRPFile test;
+	protected RPGRPFileReader test;
 	protected DiceRoller roller;
 	protected Attack[] attacks;
 
 	@Before
 	public void setUp() throws Exception {
 		BasicConfigurator.configure();
-		test = new RPGRPFile("Magnis Of Hornwood.rpgrp");
+		RPGRPFileReader.TEST_MODE = true;
+		test = new RPGRPFileReader("test-data.rpgrp");
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		RPGRPFileReader.TEST_MODE = false;
 		test = null;
 		roller = null;
 	}
@@ -51,7 +55,7 @@ public class TestRPGRPFile {
 				+ " to DiceRoller...");
 		roller = new DiceRoller(attacks[0].getDieNum(), attacks[0].getDieType());
 		roller.setDiceModifier(attacks[0].getAttackBonus());
-		roller.printDiceRoller();
+		roller.printTotalDiceRoller();
 
 		logger.info("Fetching Skill Info from character XML file...");
 		HashMap<String, Integer> skills = test.getSkills();
@@ -66,7 +70,7 @@ public class TestRPGRPFile {
 		}
 
 		logger.info("Rolling Bluff...");
-		roller.printDiceRoller();
+		roller.printTotalDiceRoller();
 
 		/*
 		 * Running unit tests
@@ -91,7 +95,7 @@ public class TestRPGRPFile {
 
 	/**
 	 * Test method for
-	 * {@link org.pelka.tools.rpgrpfile.calc.RPGRPFile#getName()}.
+	 * {@link org.pelka.tools.util.io.RPGRPFileReader#getName()}.
 	 */
 	@Test
 	public void testGetName() {
@@ -106,7 +110,7 @@ public class TestRPGRPFile {
 
 	/**
 	 * Test method for
-	 * {@link org.pelka.tools.rpgrpfile.calc.RPGRPFile#getInitiative()}.
+	 * {@link org.pelka.tools.util.io.RPGRPFileReader#getInitiative()}.
 	 */
 	@Test
 	public void testGetInitiative() {
@@ -126,7 +130,7 @@ public class TestRPGRPFile {
 
 	/**
 	 * Test method for
-	 * {@link org.pelka.tools.rpgrpfile.calc.RPGRPFile#getAttacks()}.
+	 * {@link org.pelka.tools.util.io.RPGRPFileReader#getAttacks()}.
 	 */
 	@Test
 	public void testGetAttacks() {
@@ -176,7 +180,7 @@ public class TestRPGRPFile {
 
 	/**
 	 * Test method for
-	 * {@link org.pelka.tools.rpgrpfile.calc.RPGRPFile#getSkills()}.
+	 * {@link org.pelka.tools.util.io.RPGRPFileReader#getSkills()}.
 	 */
 	@Test
 	public void testGetSkills() {
